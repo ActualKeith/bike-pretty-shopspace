@@ -1,2 +1,9 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 <script src="https://sdks.shopifycdn.com/js-buy-sdk/v0/latest/shopify-buy.umd.polyfilled.min.js"></script>
+
+<!-- loads the cart box -->
+<script>
+$( document ).ready(function() {
+  $('.absolute-cart-box').load('http://localhost:8877/shopspace/shopspace-dev/local-dev/templates/cart-box');
+});
+</script>
