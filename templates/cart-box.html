@@ -12,21 +12,72 @@
 	}
 </style>
 -->
-<div class="absolute-cart-box">
-	<div class="sqs-widget sqs-pill-shopping-cart" style="visibility: visible; opacity: 1; transform: scale(1); transition: opacity 0.25s ease-out, visibility 0.25s ease-out, transform 0.25s ease-out;">
+<div id="cart-box" class="absolute-cart-box" style="display:none;">
+	<div class="sqs-widget sqs-pill-shopping-cart" style="visibility: visible !important; opacity: 1; transform: scale(1); transition: opacity 0.25s ease-out, visibility 0.25s ease-out, transform 0.25s ease-out;">
+		<a href="/checkout-cart">
 		<div class="sqs-pill-shopping-cart-content dark">
 			<div class="icon"></div>
 
 			<div class="details">
-			  <span class="total-quantity">1</span>
+			  <span id="cart-box-quantity" class="total-quantity"></span>
 			  <span class="suffix">item</span>
 			</div>
 
 			<span class="subtotal">
 				<span class="price">
-					<span class="sqs-money-native">100</span>
+					<span id="cart-box-price" class="sqs-money-native"></span>
 				</span>
 			</span>
 		</div>
+		</a>
 	</div>
 </div>
+
+<script>
+	console.log(localStorage);
+
+	var client = ShopifyBuy.buildClient({
+		domain: '{{shopspace.shop.shopifySubdomain}}.myshopify.com',
+	    apiKey: '{{shopspace.shop.buyButtonToken}}',
+	    appId: '6'
+	});
+
+	var product;
+	var cart;
+	var cartLineItemCount;
+	if(localStorage.getItem('lastCartId')) {
+		//show cart box
+		//document.getElementById("cart-box").style.display = "block";
+
+		client.fetchCart(localStorage.getItem('lastCartId')).then(function(remoteCart) {
+			console.log("got an existing cart");
+			cart = remoteCart;
+			console.log("da cart: ");
+			console.log(cart);
+			updateCartBox();
+		});
+
+	} else {
+		client.createCart().then(function (newCart) {
+			console.log("got a new cart");
+			cart = newCart;
+			localStorage.setItem('lastCartId', cart.id);
+			updateCartBox();
+		});
+	}
+
+	function updateCartBox() {
+		var lineItemCount = cart.lineItemCount;
+		if( lineItemCount > 0){
+			document.getElementById("cart-box").style.display = "block";
+			document.getElementById("cart-box-quantity").innerHTML = cart.lineItemCount;
+			document.getElementById("cart-box-price").innerHTML = cart.subtotal;
+		}else{
+			document.getElementById("cart-box-quantity").innerHTML = cart.lineItemCount;
+			document.getElementById("cart-box-price").innerHTML = cart.subtotal;
+			document.getElementById("cart-box").style.display = "none";
+		}
+
+	}
+
+</script>

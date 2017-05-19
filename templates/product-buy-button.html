@@ -33,7 +33,7 @@
 			</div>
 		</div>
 		<div>
-			<h1 id='add-to-cart-button-{{shopify.product.id}}' style='text-transform: uppercase; background-color: #222; color: white; border-radius: 3px; padding-top: 14px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px; display: inline-block; text-align: center; cursor: pointer; height: auto; font-size: 14pt' onclick="onClinkAddToCart()"></h1>
+			<h1 id='add-to-cart-button-{{shopify.product.id}}' style='text-transform: uppercase; background-color: #222; color: white; border-radius: 3px; padding-top: 14px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px; display: inline-block; text-align: center; cursor: pointer; height: auto; font-size: 14pt' onclick="onClickAddToCart()"></h1>
 		</div>
 	</div>
 </div>
@@ -179,7 +179,7 @@
 		});
 	}
 
-	function onClinkAddToCart () {
+	function onClickAddToCart () {
 		//need to block this when the item is sold out
 		//possibly when the user adds too many to their cart
 		var selectedVariant = getSelectedVariant();
@@ -202,9 +202,11 @@
 			console.log("The cart now contains " + cart.lineItemCount + " items.");
 			console.log("items: " + JSON.stringify(cart.lineItems));
 			console.log(cart.checkoutUrl);
+			updateCartBox();
 			redraw();
 		}, function (error) {
 			console.log(error);
+			updateCartBox();
 			redraw();
 		});
 	}
@@ -212,6 +214,7 @@
 	function clearCart () {
 		cart.clearLineItems().then(function (cart) {
 			console.log("no more items: " + cart.lineItemCount);
+			updateCartBox();
 		});
 	}
 

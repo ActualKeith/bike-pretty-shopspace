@@ -19,7 +19,7 @@
 	<div class="cart-container" id="yui_3_17_2_1_1480486375216_532">
 
 	<table id="cart-table">
-		<thead> 
+		<thead>
 			<tr>
 				<td class="item">Item</td>
 				<td></td>
@@ -73,8 +73,8 @@
 	function clearCart () {
 		cart.clearLineItems().then(function (cart) {
 			console.log("no more items: " + cart.lineItemCount);
+			updateCartBox();
 		});
-
 		redraw();
 	}
 
@@ -93,6 +93,7 @@
 	}
 
 	function redraw() {
+
 		var lineItems = cart.lineItems;
 		document.getElementById("a-cart-div").innerHTML = JSON.stringify(lineItems);
 		document.getElementById("subtotal").innerHTML = cart.subtotal;
@@ -118,11 +119,11 @@
 			var priceCell = newRow.insertCell(3);
 			var removeCell = newRow.insertCell(4);
 
-			imageCell.innerHTML = 	"<div class='item-image'>" + 
-										"<img style='width: 100;' src='" + imageUrl + "'>" + 
+			imageCell.innerHTML = 	"<div class='item-image'>" +
+										"<img style='width: 100;' src='" + imageUrl + "'>" +
 									"</div>";
-									
-			descriptionCell.innerHTML = "<a href='{{apiPath}}/products/pages/" + productId + "'>" + title + "</a>" + 
+
+			descriptionCell.innerHTML = "<a href='{{apiPath}}/products/pages/" + productId + "'>" + title + "</a>" +
 										"<div class='variant-info'>" + variantTitle + "</div>";
 
 			quantityCell.innerHTML = 	"<input size='1' value=" + quantity + ">";
